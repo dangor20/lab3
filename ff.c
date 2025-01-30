@@ -5,13 +5,16 @@
 #include <limits.h>
 #include <time.h>
 #include "header.h"
+#include <locale.h>
 
 
 Elem *BegQ, *EndQ;
 FILE * file = NULL;
 
+
 void queue_create(long long num)
 {
+    setlocale(LC_ALL, "Rus");
     BegQ = NULL;
     EndQ = NULL;
     Elem *p = (Elem *)malloc(sizeof(Elem));
@@ -63,7 +66,7 @@ void get_queue(char * filename)
     file = fopen(filename, "r");
     if(file == NULL)
     {
-        printf("Error occured while opening %s. No such file of directory.\n", filename);
+        printf("Ошибка открытия %s. Файла не существует.\n", filename);
         return;
     }
 
@@ -97,7 +100,7 @@ void get_queue(char * filename)
         {
             if (((LLONG_MAX - digit) / 10) <= num)
             {
-                printf("Overflow occurred while reading %s\n", filename); 
+                printf("Переполнение %s\n", filename); 
                 return;
             }
 
@@ -105,7 +108,7 @@ void get_queue(char * filename)
         }
         else
         {
-            printf("Can't read %s. (Please note that it must contain a sequence of integers separated by spaces.)\n", filename);
+            printf("Невозможно прочитать %s.\n", filename);
             return;
         }
     }
@@ -146,7 +149,7 @@ void write_row(char * filename, int is_sorted)
 void selection_sort()
 {
     Elem *p = BegQ, *i, *min_elem = NULL;
-    long long decoy;
+    
 
     while (p != EndQ)
     {
@@ -160,9 +163,9 @@ void selection_sort()
             }
             i = i -> link;
         }
-        decoy = p -> inf;
+        long long temp = p -> inf;
         p -> inf = min_elem -> inf;
-        min_elem -> inf = decoy;
+        min_elem -> inf = temp;
 
         p = p -> link;
     }
