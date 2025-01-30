@@ -3,6 +3,7 @@ typedef struct elem{
     struct elem * link;
 }Elem;
 
+
 void queue_create(long long num);
 
 void queue_push(long long num);
